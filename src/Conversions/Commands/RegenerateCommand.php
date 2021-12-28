@@ -62,6 +62,7 @@ class RegenerateCommand extends Command
         });
 
         $progressBar->finish();
+        $this->newLine();
 
         if (count($this->errorMessages)) {
             $this->warn('All done, but with some error messages:');

@@ -219,4 +219,9 @@ return [
      * If you set this to `/my-subdir`, all your media will be stored in a `/my-subdir` directory.
      */
     'prefix' => env('MEDIA_PREFIX', ''),
+
+    /**
+     * Should a new uploaded media be active by default or not.
+     */
+    'media_active_by_default' => env('MEDIA_ACTIVE_BY_DEFAULT', true),
 ];

@@ -27,6 +27,7 @@ use Spatie\MediaLibrary\Support\MediaLibraryPro;
 use Spatie\MediaLibrary\Support\TemporaryDirectory;
 use Spatie\MediaLibrary\Support\UrlGenerator\UrlGeneratorFactory;
 use Spatie\MediaLibraryPro\Models\TemporaryUpload;
+use Spatie\MediaLibrary\MediaCollections\Scopes\ActiveScope;
 
 class Media extends Model implements Responsable, Htmlable
 {
@@ -48,6 +49,24 @@ class Media extends Model implements Responsable, Htmlable
         'generated_conversions' => 'array',
         'responsive_images' => 'array',
     ];
+
+    public function __construct(array $attributes = [])
+    {
+        $this->setRawAttributes([
+            $this->getActiveColumnName() => static::getDefaultActiveState(),
+        ]);
+
+        $this->casts = array_merge([
+            $this->getActiveColumnName() => 'boolean',
+        ], $this->casts);
+
+        parent::__construct($attributes);
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new ActiveScope);
+    }
 
     public function newCollection(array $models = [])
     {
@@ -369,5 +388,25 @@ class Media extends Model implements Responsable, Htmlable
                 fn (Builder $builder) => $builder->where('session_id', session()->getId())
             )
             ->get();
+    }
+
+    public static function getDefaultActiveState(): bool
+    {
+        return (bool) config('media-library.media_active_by_default');
+    }
+
+    public function getActiveColumnName(): string
+    {
+        return 'active';
+    }
+
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where($this->getActiveColumnName(), true);
+    }
+
+    public function scopeDisabled(Builder $query): Builder
+    {
+        return $query->where($this->getActiveColumnName(), false);
     }
 }
