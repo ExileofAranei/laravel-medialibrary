@@ -81,4 +81,9 @@ class MediaConversion
         $this->size = filesize($this->path);
         $this->sizeHuman = File::getHumanReadableSize($this->size);
     }
+
+    public function aspectRatio()
+    {
+        return round(((int) $this->height / (int) $this->width) * 100, 5) . '%';
+    }
 }
