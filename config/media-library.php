@@ -224,4 +224,9 @@ return [
      * Should a new uploaded media be active by default or not.
      */
     'media_active_by_default' => env('MEDIA_ACTIVE_BY_DEFAULT', true),
+
+    /**
+     * Length of hash version suffix for conversion URL
+     */
+    'conversion_hash_length' => (int) env('MEDIA_CONVERSION_HASH_LENGTH', 10),
 ];

@@ -8,11 +8,13 @@ use League\Flysystem\Adapter\AbstractAdapter;
 
 class DefaultUrlGenerator extends BaseUrlGenerator
 {
-    public function getUrl(): string
+    public function getUrl($version = true): string
     {
         $url = $this->getDisk()->url($this->getPathRelativeToRoot());
 
-        $url = $this->versionUrl($url);
+        if ($version) {
+            $url = $this->versionUrl($url);
+        }
 
         return $url;
     }
