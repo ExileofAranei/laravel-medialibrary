@@ -65,11 +65,6 @@ class Media extends Model implements Responsable, Htmlable
         parent::__construct($attributes);
     }
 
-    protected static function booted()
-    {
-        static::addGlobalScope(new ActiveScope);
-    }
-
     public function newCollection(array $models = [])
     {
         return new MediaCollection($models);
