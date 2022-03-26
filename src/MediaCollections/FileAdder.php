@@ -302,6 +302,7 @@ class FileAdder
         $media->name = $this->mediaName;
 
         $media->file_name = $this->fileName;
+        $media->hash = md5_file($this->pathToFile);
 
         $media->disk = $this->determineDiskName($diskName, $collectionName);
         $this->ensureDiskExists($media->disk);
